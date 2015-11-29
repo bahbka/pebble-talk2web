@@ -1,0 +1,94 @@
+<!--
+-*-coding: utf-8 -*-
+vim: sw=2 ts=2 expandtab ai
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Talk2Web Configuration</title>
+  <link rel='stylesheet' type='text/css' href='css/slate.min.css'>
+  <style>
+  .title {
+    padding: 15px 10px;
+    text-transform: uppercase;
+    font-family: 'PT Sans', sans-serif;
+    font-size: 1.2em;
+    font-weight: 500;
+    color: #888888;
+    text-align: center;
+  }
+  </style>
+</head>
+
+<body>
+<h1 class='title'>Talk2Web Configuration</h1>
+
+<div class='item-container'>
+  <div class='item-container-content'>
+    <div class='item'>
+      With this app you can send dictation result to your own server, you can use it for voice control your smart house with Pebble for example
+    </div>
+  </div>
+</div>
+
+<div class="item-container">
+  <div class="item-container-header">Your server URL</div>
+  <div class="item-container-content">
+    <label class="item">
+      <div class="item-input-wrapper">
+        <input id="serverURL" type="text" class="item-input" placeholder="type your server url here">
+      </div>
+    </label>
+  </div>
+  <div class='item-container-footer'>Send dictation results to this url with GET parameter <b>text</b></div>
+</div>
+
+<div class="item-container">
+  <div class="item-container-header">Dicatation module settings</div>
+  <div class="item-container-content">
+    <label class="item">
+      Start dictation immediately
+      <input id="startImmediately" type="checkbox" class="item-toggle">
+    </label>
+    <label class="item">
+      Enable confirmation dialog
+      <input id="enableConfirmationDialog" type="checkbox" class="item-toggle" checked>
+    </label>
+    <label class="item">
+      Enable dictation error dialog
+      <input id="enableErrorDialog" type="checkbox" class="item-toggle" checked>
+    </label>
+  </div>
+</div>
+
+<div class="item-container">
+  <div class="item-container-content">
+    <label class="item">
+      Send device ID
+      <input id="sendDeviceID" type="checkbox" class="item-toggle">
+    </label>
+  </div>
+  <div class='item-container-footer'>Append device ID to url with GET parameter <b>deviceid</b>, can be used for auth</div>
+</div>
+
+<div class="item-container">
+  <div class="item-container-content">
+    <label class="item">
+      Send GPS coordinates
+      <input id="sendCoordinates" type="checkbox" class="item-toggle">
+    </label>
+  </div>
+  <div class='item-container-footer'>Append coordinates to url with GET parameters <b>lat</b> and <b>lon</b> (can eat your battery)</div>
+</div>
+
+<div class="item-container">
+  <div class="button-container">
+    <input id="submitButton" type="button" class="item-button" value="SUBMIT">
+  </div>
+</div>
+
+</body>
+  <script src='js/slate.min.js'></script>
+  <script src='js/main.js'></script>
+</html>
