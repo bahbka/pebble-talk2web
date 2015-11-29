@@ -53,9 +53,9 @@ Pebble.addEventListener('webviewclosed', function(e) {
 
   if (configData.serverURL) {
     sendMessageToPebble({
-      startImmediately: configData.startImmediately,
-      enableConfirmationDialog: configData.enableConfirmationDialog,
-      enableErrorDialog: configData.enableErrorDialog
+      keyStartImmediately: configData.startImmediately,
+      keyEnableConfirmationDialog: configData.enableConfirmationDialog,
+      keyEnableErrorDialog: configData.enableErrorDialog
     });
   }
 });
@@ -64,9 +64,9 @@ Pebble.addEventListener('ready', function(e) {
   console.log('JavaScript app ready and running!');
   if (localStorage.serverURL) {
     sendMessageToPebble({
-      startImmediately: configData.startImmediately,
-      enableConfirmationDialog: configData.enableConfirmationDialog,
-      enableErrorDialog: configData.enableErrorDialog
+      keyStartImmediately: configData.startImmediately,
+      keyEnableConfirmationDialog: configData.enableConfirmationDialog,
+      keyEnableErrorDialog: configData.enableErrorDialog
     });
   }
 });

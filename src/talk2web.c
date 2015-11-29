@@ -8,8 +8,11 @@
 
 #include <pebble.h>
 
-#define KEY_STATUS 10
-#define KEY_TEXT 20
+#define KEY_START_IMMEDIATELY 10
+#define KEY_ENABLE_CONFIRMATION_DIALOG 20
+#define KEY_ENABLE_ERROR_DIALOG 30
+#define KEY_STATUS 100
+#define KEY_TEXT 110
 
 static Window *s_main_window;
 static TextLayer *s_output_layer;

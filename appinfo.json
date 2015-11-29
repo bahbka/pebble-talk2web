@@ -11,9 +11,9 @@
     "watchface": false
   },
   "appKeys": {
-    "startImmediately": 10,
-    "enableConfirmationDialog": 20,
-    "enableErrorDialog": 30,
+    "keyStartImmediately": 10,
+    "keyEnableConfirmationDialog": 20,
+    "keyEnableErrorDialog": 30,
     "keyStatus": 100,
     "keyText": 110
   },
