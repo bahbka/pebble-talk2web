@@ -21,7 +21,7 @@ function loadOptions() {
   var $startImmediately = $('#startImmediately');
   var $enableConfirmationDialog = $('#enableConfirmationDialog');
   var $enableErrorDialog = $('#enableErrorDialog');
-  var $sendDeviceID = $('#sendDeviceID');
+  var $sendAccountToken = $('#sendAccountToken');
   var $sendCoordinates = $('#sendCoordinates');
 
   if (localStorage.serverURL) {
@@ -29,7 +29,7 @@ function loadOptions() {
     $startImmediately[0].checked = localStorage.startImmediately === 'true';
     $enableConfirmationDialog[0].checked = localStorage.enableConfirmationDialog === 'true';
     $enableErrorDialog[0].checked = localStorage.enableErrorDialog === 'true';
-    $sendDeviceID[0].checked = localStorage.sendDeviceID === 'true';
+    $sendAccountToken[0].checked = localStorage.sendAccountToken === 'true';
     $sendCoordinates[0].checked = localStorage.sendCoordinates === 'true';
   }
 }
@@ -39,7 +39,7 @@ function getAndStoreConfigData() {
   var $startImmediately = $('#startImmediately');
   var $enableConfirmationDialog = $('#enableConfirmationDialog');
   var $enableErrorDialog = $('#enableErrorDialog');
-  var $sendDeviceID = $('#sendDeviceID');
+  var $sendAccountToken = $('#sendAccountToken');
   var $sendCoordinates = $('#sendCoordinates');
 
   var options = {
@@ -47,7 +47,7 @@ function getAndStoreConfigData() {
     startImmediately: $startImmediately[0].checked,
     enableConfirmationDialog: $enableConfirmationDialog[0].checked,
     enableErrorDialog: $enableErrorDialog[0].checked,
-    sendDeviceID: $sendDeviceID[0].checked,
+    sendAccountToken: $sendAccountToken[0].checked,
     sendCoordinates: $sendCoordinates[0].checked
   };
 
@@ -56,7 +56,7 @@ function getAndStoreConfigData() {
   localStorage.startImmediately = options.startImmediately;
   localStorage.enableConfirmationDialog = options.enableConfirmationDialog;
   localStorage.enableErrorDialog = options.enableErrorDialog;
-  localStorage.sendDeviceID = options.sendDeviceID;
+  localStorage.sendAccountToken = options.sendAccountToken;
   localStorage.sendCoordinates = options.sendCoordinates;
 
   console.log('Got options: ' + JSON.stringify(options));
