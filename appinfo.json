@@ -1,0 +1,23 @@
+{
+  "uuid": "ca312601-cd8e-406a-83a5-78ba65ec22fe",
+  "shortName": "Talk2Web",
+  "longName": "Talk2Web",
+  "companyName": "bahbka@bahbka.com",
+  "versionLabel": "1.0",
+  "sdkVersion": "3",
+  "targetPlatforms": ["basalt", "chalk"],
+  "capabilities": [ "configurable", "location" ],
+  "watchapp": {
+    "watchface": false
+  },
+  "appKeys": {
+    "startImmediately": 10,
+    "enableConfirmationDialog": 20,
+    "enableErrorDialog": 30,
+    "keyStatus": 100,
+    "keyText": 110
+  },
+  "resources": {
+    "media": []
+  }
+}
