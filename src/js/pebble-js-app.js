@@ -9,38 +9,105 @@
 function sendMessageToPebble(message) {
   var transactionId = Pebble.sendAppMessage(message,
     function(e) {
-      console.log('Successfully delivered message with transactionId=' + e.data.transactionId);
+      console.log('ok message ' + e.data.transactionId);
     },
     function(e) {
-      console.log('Unable to deliver message with transactionId=' + e.data.transactionId + ' Error is: ' + e.error.message);
+      console.log('fail message ' + e.data.transactionId + ', error: ' + e.error.message);
     }
   );
 }
 
+function doRequest(url) {
+  console.log("request url: " + url);
+
+  message = {
+    keyStatus: 100,
+    keyText: "unknown error"
+  };
+
+  var req = new XMLHttpRequest();
+  req.open('GET', url, true);
+  req.onload = function(e) {
+    if (req.readyState == 4) {
+      if(req.status == 200) {
+        try {
+          message = JSON.parse(req.responseText);
+        } catch(e) {
+          message = {
+            keyStatus: 0,
+            keyText: req.responseText
+          };
+        }
+      } else {
+        //Pebble.showSimpleNotificationOnPebble("ERROR", req.status);
+        message = {
+          keyStatus: 101,
+          keyText: "server error " + req.status.toString()
+        };
+      }
+    }
+    sendMessageToPebble(message);
+  };
+  req.send(null);
+}
+
 Pebble.addEventListener('appmessage',
   function(e) {
-    //console.log('Received message: ' + e.payload[0]);    
-    var req = new XMLHttpRequest();
-    req.open('GET', localStorage.serverURL + '?text=' + e.payload[0] + '&token=' + Pebble.getAccountToken(), true);
-    req.onload = function(e) {
-      if (req.readyState == 4) {
-        if(req.status == 200) {
-          //Pebble.showSimpleNotificationOnPebble("Voice2Web OK", req.responseText);
-          send_message_to_pebble();
-        } else {
-          //Pebble.showSimpleNotificationOnPebble("Voice2Web ERROR", req.status);
+    //console.log('received message: ' + e.payload[0]);
+
+    try {
+      configData = JSON.parse(localStorage.getItem("pebble-talk2web-config"));
+      console.log('current config: ' + JSON.stringify(configData));
+
+      url = configData.serverURL + '?text=' + e.payload['keyText'];
+      if (configData.sendAccountToken)
+        url += '&token=' + Pebble.getAccountToken();
+
+      if (configData.sendCoordinates) {
+        try {
+          navigator.geolocation.getCurrentPosition(
+            function(position) {
+              url += '&lat=' + position.coords.latitude + '&lon=' + position.coords.longitude;
+              doRequest(url);
+            },
+            function(error) {
+              //error error.message
+              /*
+                TODO inform user about error
+                PERMISSION_DENIED (numeric value 1)
+                POSITION_UNAVAILABLE (numeric value 2)
+                TIMEOUT (numeric value 3)
+              */
+              console.log("geolocation error");
+              doRequest(url);
+            },
+            {
+              enableHighAccuracy: false, // TODO config
+              maximumAge: 600000,
+              timeout: 10000
+            } // 10 minutes
+          );
+        } catch(e) {
+          console.log("geolocation failed");
+          doRequest(url);
         }
+      } else {
+        doRequest(url);
       }
-    };
-    req.send(null);
+
+    } catch(e) {
+      console.log(e);
+      sendMessageToPebble({
+        keyStatus: 102,
+        keyText: "sending failed"
+      });
+    }
   }
 );
 
 Pebble.addEventListener('showConfiguration', function(e) {
-  // Show config page
-  //var url = 'https://rawgit.com/pebble-examples/design-guides-slate-config/master/config/index.html';
   var url = 'http://bahbka.github.io/pebble-talk2web/';
-  console.log('Showing configuration page: ' + url);
+  console.log('showing configuration page: ' + url);
 
   Pebble.openURL(url);
 });
@@ -49,9 +116,11 @@ Pebble.addEventListener('webviewclosed', function(e) {
   //console.log('Configuration window returned: ' + e.response);
 
   var configData = JSON.parse(decodeURIComponent(e.response));
-  console.log('Configuration page returned: ' + JSON.stringify(configData));
+  console.log('configuration page returned: ' + JSON.stringify(configData));
 
   if (configData.serverURL) {
+    localStorage.setItem("pebble-talk2web-config", JSON.stringify(configData));
+
     sendMessageToPebble({
       keyStartImmediately: configData.startImmediately,
       keyEnableConfirmationDialog: configData.enableConfirmationDialog,
@@ -61,12 +130,5 @@ Pebble.addEventListener('webviewclosed', function(e) {
 });
 
 Pebble.addEventListener('ready', function(e) {
-  console.log('JavaScript app ready and running!');
-  if (localStorage.serverURL) {
-    sendMessageToPebble({
-      keyStartImmediately: configData.startImmediately,
-      keyEnableConfirmationDialog: configData.enableConfirmationDialog,
-      keyEnableErrorDialog: configData.enableErrorDialog
-    });
-  }
+  console.log('ready');
 });
