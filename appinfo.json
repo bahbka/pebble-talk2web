@@ -2,7 +2,7 @@
   "uuid": "ca312601-cd8e-406a-83a5-78ba65ec22fe",
   "shortName": "Talk2Web",
   "longName": "Talk2Web",
-  "companyName": "bahbka@bahbka.com",
+  "companyName": "bahbka",
   "versionLabel": "1.0",
   "sdkVersion": "3",
   "targetPlatforms": ["basalt", "chalk"],
