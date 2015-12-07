@@ -25,7 +25,7 @@ function sendMessageToPebble(message) {
 }
 
 function doRequest() {
-  if (configData.evalEnable) {
+  if (configData.enableEval) {
     url_template = configData.serverURL;
   } else {
     url_template = "'" + configData.serverURL + "'+'?text='+text+'&token='+token+'&lat='+lat+'&lon='+lon";
