@@ -6,6 +6,13 @@
  * * by bahbka <bahbka@bahbka.com> *
  * *********************************/
 
+
+// global variables for eval()
+var text = "";
+var token = "";
+var lat = "";
+var lon = "";
+
 function sendMessageToPebble(message) {
   var transactionId = Pebble.sendAppMessage(message,
     function(e) {
@@ -17,8 +24,24 @@ function sendMessageToPebble(message) {
   );
 }
 
-function doRequest(url) {
-  console.log("request url: " + url);
+function doRequest() {
+  if (configData.evalEnable) {
+    url_template = configData.serverURL;
+  } else {
+    url_template = "'" + configData.serverURL + "'+'?text='+text+'&token='+token+'&lat='+lat+'&lon='+lon";
+  }
+
+  console.log("url template: " + url_template);
+
+  try {
+    url = eval(url_template);
+    console.log("request url : " + url);
+
+  } catch(e) {
+    console.log("eval error: " + e)
+    sendMessageToPebble({keyStatus: 102, keyText: "url eval() error: " + e});
+    return;
+  }
 
   message = {
     keyStatus: 100,
@@ -59,16 +82,21 @@ Pebble.addEventListener('appmessage',
       configData = JSON.parse(localStorage.getItem("pebble-talk2web-config"));
       console.log('current config: ' + JSON.stringify(configData));
 
-      url = configData.serverURL + '?text=' + e.payload['keyText'];
+      text = e.payload['keyText'];
+      token = "";
+      lat = "";
+      lon = "";
+
       if (configData.sendAccountToken)
-        url += '&token=' + Pebble.getAccountToken();
+        token = Pebble.getAccountToken();
 
       if (configData.sendCoordinates) {
         try {
           navigator.geolocation.getCurrentPosition(
             function(position) {
-              url += '&lat=' + position.coords.latitude + '&lon=' + position.coords.longitude;
-              doRequest(url);
+              lat = position.coords.latitude;
+              lon = position.coords.longitude;
+              doRequest();
             },
             function(error) {
               //error error.message
@@ -79,7 +107,7 @@ Pebble.addEventListener('appmessage',
                 TIMEOUT (numeric value 3)
               */
               console.log("geolocation error");
-              doRequest(url);
+              doRequest();
             },
             {
               enableHighAccuracy: false, // TODO config
@@ -89,10 +117,10 @@ Pebble.addEventListener('appmessage',
           );
         } catch(e) {
           console.log("geolocation failed");
-          doRequest(url);
+          doRequest();
         }
       } else {
-        doRequest(url);
+        doRequest();
       }
 
     } catch(e) {
@@ -109,11 +137,11 @@ Pebble.addEventListener('showConfiguration', function(e) {
   var url = 'http://bahbka.github.io/pebble-talk2web/';
   console.log('showing configuration page: ' + url);
 
+  Pebble.openURL(url);
+
   sendMessageToPebble({
     keyStatus: 255,
   });
-
-  Pebble.openURL(url);
 });
 
 Pebble.addEventListener('webviewclosed', function(e) {
