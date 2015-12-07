@@ -83,6 +83,16 @@ vim: sw=2 ts=2 expandtab ai
 </div>
 
 <div class="item-container">
+  <div class="item-container-content">
+    <label class="item">
+      Enable JS eval() for server URL
+      <input id="enableEval" type="checkbox" class="item-toggle">
+    </label>
+    <div class='item-container-footer'>You can customize server URL much more with this, use <b>text</b>, <b>token</b>, <b>lat</b>, <b>lon</b> variables, example (it is <i>JavaScript</i>): <pre>"http://yourserver.com/"+text.split(" ")[0]+"/?value1="+text+"&value2="+lat+"&value3="+lon</pre> Can be usefull with <b>IFTTT</b> integration</div>
+  </div>
+</div>
+
+<div class="item-container">
   <div class="button-container">
     <input id="submitButton" type="button" class="item-button" value="SUBMIT">
   </div>

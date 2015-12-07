@@ -23,6 +23,7 @@ function loadOptions() {
   var $enableErrorDialog = $('#enableErrorDialog');
   var $sendAccountToken = $('#sendAccountToken');
   var $sendCoordinates = $('#sendCoordinates');
+  var $enableEval = $('#enableEval');
 
   if (localStorage.serverURL) {
     $serverURL[0].value = localStorage.serverURL;
@@ -31,6 +32,7 @@ function loadOptions() {
     $enableErrorDialog[0].checked = localStorage.enableErrorDialog === 'true';
     $sendAccountToken[0].checked = localStorage.sendAccountToken === 'true';
     $sendCoordinates[0].checked = localStorage.sendCoordinates === 'true';
+    $enableEval[0].checked = localStorage.enableEval === 'true';
   }
 }
 
@@ -41,6 +43,7 @@ function getAndStoreConfigData() {
   var $enableErrorDialog = $('#enableErrorDialog');
   var $sendAccountToken = $('#sendAccountToken');
   var $sendCoordinates = $('#sendCoordinates');
+  var $enableEval = $('#enableEval');
 
   var options = {
     serverURL: $serverURL.val(),
@@ -48,7 +51,8 @@ function getAndStoreConfigData() {
     enableConfirmationDialog: $enableConfirmationDialog[0].checked,
     enableErrorDialog: $enableErrorDialog[0].checked,
     sendAccountToken: $sendAccountToken[0].checked,
-    sendCoordinates: $sendCoordinates[0].checked
+    sendCoordinates: $sendCoordinates[0].checked,
+    enableEval: $enableEval[0].checked
   };
 
   // Save for next launch
@@ -58,6 +62,7 @@ function getAndStoreConfigData() {
   localStorage.enableErrorDialog = options.enableErrorDialog;
   localStorage.sendAccountToken = options.sendAccountToken;
   localStorage.sendCoordinates = options.sendCoordinates;
+  localStorage.enableEval = options.enableEval;
 
   console.log('Got options: ' + JSON.stringify(options));
   return options;
