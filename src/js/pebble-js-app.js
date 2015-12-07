@@ -109,6 +109,10 @@ Pebble.addEventListener('showConfiguration', function(e) {
   var url = 'http://bahbka.github.io/pebble-talk2web/';
   console.log('showing configuration page: ' + url);
 
+  sendMessageToPebble({
+    keyStatus: 255,
+  });
+
   Pebble.openURL(url);
 });
 

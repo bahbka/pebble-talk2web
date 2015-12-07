@@ -26,6 +26,8 @@ static char s_last_text[1024];
 static AppTimer *exit_timer = NULL;
 static AppTimer *timeout_timer = NULL;
 
+static bool auto_exit_enable = true;
+
 static void show_text(char *message, GColor fg_color, GColor bg_color) {
   text_layer_set_text_color(s_output_layer, fg_color);
   text_layer_set_background_color(s_output_layer, bg_color);
@@ -34,7 +36,8 @@ static void show_text(char *message, GColor fg_color, GColor bg_color) {
 }
 
 static void exit_timeout() {
-  window_stack_pop_all(true);
+  if (auto_exit_enable)
+    window_stack_pop_all(true);
 }
 
 static void request_timeout() {
@@ -123,7 +126,9 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
   Tuple *status = dict_find(iterator, KEY_STATUS);
   Tuple *text = dict_find(iterator, KEY_TEXT);
   if (status) {
-    if (status->value->uint8 == 0) {
+    if (status->value->uint8 == 255) { // configuration was opened, disable auto exit
+      auto_exit_enable = false;
+    } else if (status->value->uint8 == 0) {
       if (text) {
         show_text(text->value->cstring, GColorFromHEX(0x000000), GColorFromHEX(0x00ff00));
       } else {
