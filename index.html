@@ -88,7 +88,7 @@ vim: sw=2 ts=2 expandtab ai
       Enable JS eval() for server URL
       <input id="enableEval" type="checkbox" class="item-toggle">
     </label>
-    <div class='item-container-footer'>You can customize server URL much more with this, use <b>text</b>, <b>token</b>, <b>lat</b>, <b>lon</b> variables, example (it is <i>JavaScript</i>):<br>"http://yourserver.com/"+text.split(" ")[0]+"/?value1="+text+"&value2="+lat+"&value3="+lon<br>Can be usefull with <b>IFTTT</b> integration</div>
+    <div class='item-container-footer'>You can customize server URL much more with this, use <b>text</b>, <b>token</b>, <b>lat</b>, <b>lon</b> variables, example (it is <i>JavaScript</i>):<br>"http://yourserver.com/" + text.split(" ")[0] + "/?value1=" + text.substr(text.indexOf(" ") + 1) + "&value2=" + lat + "&value3=" + lon<br>Can be usefull with <b>IFTTT</b> integration</div>
   </div>
 </div>
 
