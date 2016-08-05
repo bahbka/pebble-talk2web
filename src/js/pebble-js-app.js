@@ -82,7 +82,7 @@ Pebble.addEventListener('appmessage',
       configData = JSON.parse(localStorage.getItem("pebble-talk2web-config"));
       console.log('current config: ' + JSON.stringify(configData));
 
-      text = e.payload['keyText'];
+      text = encodeURIComponent(e.payload['keyText']);
       token = "";
       lat = "";
       lon = "";
